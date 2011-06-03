@@ -229,7 +229,7 @@ void MelodiqMainWindow::startUploading()
 {
     setStage(StageUploading);
     lComment->setText("Uploading...");
-    runProc("curl -F uploadedfile=@" + SAMPLE2_FILE + " -F step=21 -c - http://audiotag.info/index.php");
+    runProc("curl -F uploadedfile=@" + SAMPLE2_FILE + " -F step=21 http://audiotag.info/index.php");
 }
 
 void MelodiqMainWindow::retryClicked()
@@ -364,7 +364,7 @@ void MelodiqMainWindow::pFinished(int exitCode, QProcess::ExitStatus exitStatus)
                 startUploading();
                 break;
             case StageUploading:
-                sid = extractVal("PHPSESSID       ", "\n");
+                sid = extractVal("name=\"PHPSESSID\" value=\"", "\"");
                 ufname = extractVal("name=\"uploadedfilename\" value=\"", "\"");
                 //qDebug() << sid << ufname;
                 if (sid.isEmpty() || ufname.isEmpty())
